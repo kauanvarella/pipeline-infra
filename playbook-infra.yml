@@ -1,0 +1,62 @@
+- hosts: Projeto-infra
+  become: yes
+  tasks: 
+    - name: Atualizando pacotes do sistema
+      apt:
+        name: '*'
+        update_cache: yes
+
+    - name: Instalando Docker
+      apt:
+        name: docker.io
+
+    - name: Iniciando o servico do Docker
+      service:
+        name: docker
+        state: started
+      become: true
+
+    - name: Habilitando o Docker
+      shell: systemctl enable docker
+      shell: usermod -a -G docker ec2-user
+      shell: chown $USER /var/run/docker.sock
+
+    - name: Instalando o Git
+      apt:
+        name: git
+        state: latest
+
+    - name: Instalando Pip
+      apt:
+        name: python3-pip
+
+    - name: Instalando Docker SDK Python
+      pip:
+        name: docker
+        
+    - name: Container InfluxDB
+      docker_container:
+        name: influxdb
+        image: influxdb:1.0
+        state: started
+        ports:
+          - "8083:8083"
+          - "8086:8086"
+          - "25826:25826/udp"
+        volumes:
+          - /home/ubuntu/influxdb:/var/lib/influxdb
+
+    - name: Download Telegraf
+      get_url:
+        url: https://dl.influxdata.com/telegraf/releases/telegraf_1.5.2-1_amd64.deb
+        dest: /home/ubuntu/
+        mode: '0440'
+
+    - name: Instalando Telegraf
+      shell: dpkg -i telegraf_1.5.2-1_amd64.deb
+      
+    - name: Iniciando o servico do Telegraf
+      service:
+        name: telegraf
+        state: started
+      become: true
