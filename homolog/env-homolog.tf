@@ -1,5 +1,5 @@
 module "aws-homolog" {
-  source = "../infra"
+  source = "../infra-homolog"
   instancia = "t2.micro"
   regiao_aws = "us-west-2"
   chave = "ssh-prod-meuapp"
