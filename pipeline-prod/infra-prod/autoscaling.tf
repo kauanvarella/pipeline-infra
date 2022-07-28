@@ -1,5 +1,5 @@
 resource "aws_launch_template" "recurso-teste-asg" {
-  image_id = "ami-019623b03aa9dbe92" ### MUDAR ###
+  image_id = aws_ami_from_instance.AMI_Prod.id
   instance_type = var.instancia
   user_data = filebase64("start.sh")
   security_group_names = [aws_security_group.acesso_projeto.name]
@@ -31,6 +31,6 @@ resource "aws_autoscaling_policy" "recurso_asg_politica" {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-    target_value = 75.0
+    target_value = 70.0
   }
 }

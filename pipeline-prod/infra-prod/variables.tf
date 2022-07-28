@@ -14,10 +14,6 @@ variable "gruposeguranca" {
   type = string
 }
 
-variable "ami" {
-  type = string
-}
-
 variable "maximo" {
   type = number
 }
