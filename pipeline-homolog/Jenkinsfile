@@ -19,9 +19,7 @@ pipeline {
                             }
                         }                    
                         sh 'terraform init'
-                        sh 'terraform apply -target module.aws-homolog.aws_security_group.acesso_projeto -auto-approve'
-                        sh 'terraform apply -target module.aws-homolog.aws_instance.app_server -auto-approve'
-                        sh 'terraform apply -target module.aws-homolog.aws_eip_association.eip_assoc -auto-approve'
+                        sh 'terraform apply -auto-approve'
                     }  
                 }
             }
