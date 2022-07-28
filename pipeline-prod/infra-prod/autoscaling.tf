@@ -1,15 +1,15 @@
 resource "aws_launch_template" "recurso-teste-asg" {
-  image_id = "ami-019623b03aa9dbe92"
+  image_id = "ami-019623b03aa9dbe92" ### MUDAR ###
   instance_type = var.instancia
   user_data = filebase64("start.sh")
   security_group_names = [aws_security_group.acesso_projeto.name]
   tags = {
-      Name = "teste-asg-template"
+      Name = "LaunchTemplate"
   }
 }
 
 resource "aws_autoscaling_group" "recurso_grupoasg" {
-  name = "nome-asggrupo-teste"
+  name = "GrupoAutoScaling"
   availability_zones = ["${var.regiao_aws}a", "${var.regiao_aws}b"]
   desired_capacity = var.desejado
   max_size = var.maximo
@@ -24,7 +24,7 @@ resource "aws_autoscaling_group" "recurso_grupoasg" {
 }
 
 resource "aws_autoscaling_policy" "recurso_asg_politica" {
-  name = "nome_teste_asg_politica"
+  name = "PoliticaAutoScaling"
   autoscaling_group_name = aws_autoscaling_group.recurso_grupoasg.name
   policy_type = "TargetTrackingScaling"
   target_tracking_configuration {

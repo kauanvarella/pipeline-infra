@@ -1,12 +1,12 @@
 resource "aws_lb" "recurso_lb" {
-  name = "nome-recurso-teste-lb"
+  name = "Prod-LoadBalancer"
   internal = false
   load_balancer_type = "application"
   subnets = [aws_default_subnet.recurso_subnet_1.id, aws_default_subnet.recurso_subnet_2.id]
 }
 
 resource "aws_lb_target_group" "recurso_alvo_alb" {
-  name = "nome-alvo-alb"
+  name = "Prod-AlvoLoadBalancer"
   port = "80"
   protocol = "HTTP"
   vpc_id = aws_default_vpc.recurso_vpc.id
