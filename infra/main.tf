@@ -28,10 +28,4 @@ resource "aws_ami_from_instance" "AMI_Prod" {
   name = "imagem-producao"
   source_instance_id = aws_instance.app_server.id
   snapshot_without_reboot = true
-  timeouts {
-    create = "5m"
-  }
-  depends_on = [
-    aws_instance.app_server
-  ]
 } 
