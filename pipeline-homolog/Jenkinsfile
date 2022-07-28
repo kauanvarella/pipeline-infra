@@ -49,20 +49,6 @@ pipeline {
                     }
                 }
             }
-        }
-        stage('Notificacao no Slack iniciando novo Deploy em Producao') {
-            steps {
-                slackSend (color: 'warning', message: '[ Em andamento ] Novo deploy iniciado em producao', tokenCredentialId: 'slack-token')
-            }
-        }
-        stage('Imagem para producao') {
-            steps {
-                dir('./homolog') {
-                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'terraform-aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        sh 'terraform apply -target module.aws-homolog.aws_ami_from_instance.AMI_Prod -auto-approve'
-                    }  
-                }
-            }
-        }                                       
+        }                                      
     }
 }
