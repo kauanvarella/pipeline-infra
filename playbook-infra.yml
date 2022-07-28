@@ -1,4 +1,4 @@
-- hosts: Projeto-infra
+- hosts: Projeto-homolog
   become: yes
   tasks: 
     - name: Atualizando pacotes do sistema

@@ -6,7 +6,7 @@ pipeline {
                 slackSend (color: 'warning', message: '[ Em andamento - Testes] Novo deploy iniciado em: http://34.211.224.42/', tokenCredentialId: 'slack-token')
             }
         }                  
-        stage('---------- Provisionando Infraestrutura de Homologacao ----------') {
+        stage('Provisionando Infraestrutura de Homologacao') {
             steps {
                 dir('./homolog') {
                     withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'terraform-aws', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
@@ -26,14 +26,14 @@ pipeline {
                 }
             }
         }
-        stage('---------- Instalando as dependencias de homologacao ----------') {
+        stage('Instalando as dependencias de homologacao') {
             steps {
-                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts-infra-homolog.yml', playbook: 'playbook-infra.yml'
+                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts-homolog.yml', playbook: 'playbook-infra.yml'
             }
         }
         stage('Deploy em homologacao') {
             steps {            
-                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts-app-homolog.yml', playbook: 'playbook-app.yml'                                    
+                ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'hosts-homolog.yml', playbook: 'playbook-app.yml'                                    
             }
         }
         stage('Testes automatizados') {

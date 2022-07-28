@@ -1,4 +1,4 @@
-- hosts: Projeto-app
+- hosts: Projeto-homolog
   become: yes
   tasks: 
     - name: Git Clone do app
